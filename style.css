@@ -1,0 +1,34 @@
+body {
+    background-color: black;
+}
+#editor {
+        border:solid 1px #ccc;
+        padding: 20px;
+        min-height:300px;
+        background-color: white;
+}
+    
+.toolbar {
+        border:solid 1px #ddd;
+        background:#f4f4f4;
+        padding: 5px;
+        border-radius:3px;
+}
+    
+.toolbar > span {
+        cursor:pointer;
+}
+
+.toolbar > a {
+        color: black;
+}
+    
+.toolbar > span:hover {
+        text-decoration:underline;
+}
+
+button {
+        background-color: transparent;
+        border: 2px solid black;
+        cursor: pointer;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <title>ArdentCode - Piotr Wyszyński</title>
+</head>
+<body>
+    <div class="toolbar">
+        <a href="javascript:void(0)" onclick="format('bold')"><span class="fa fa-bold fa-fw"></span></a>
+        <a href="javascript:void(0)" onclick="format('italic')"><span class="fa fa-italic fa-fw"></span></a>
+        <a href="javascript:void(0)" onclick="format('insertunorderedlist')"><span class="fa fa-list fa-fw"></span></a>
+        <button id="import">Import</button>
+        <input class="import" type="text" placeholder="Podaj nazwę pliku do wczytania" size="27">
+        <button id="export">Export</button>
+    </div>
+    
+    <div id="editor"></div>
+    
+    <script>
+        importText = document.getElementById("import");
+        exportText = document.getElementById("export");
+        div = document.getElementById("editor");
+
+        window.addEventListener('load', function(){
+            document.getElementById('editor').setAttribute('contenteditable', 'true');
+        });
+    
+        function format(command, value) {
+            document.execCommand(command, false, value);
+        }
+
+        function importJSON() {
+            const fileName = document.querySelector('.import').value;
+            if(fileName==="") {
+                alert("Podaj nazwę pliku!")
+            } else {
+            fetch(`${fileName}.json`)
+                .then(response => response.json())
+                .then(data => {
+                    document.querySelector("#editor").innerText = data.text;
+                })
+        }}
+
+        importText.addEventListener("click", importJSON);
+
+        function exportJSON() {
+            const text = `{"text":"${div.innerText}"}`;
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(new Blob([(text)], {type: "text/plain"}));
+            a.setAttribute("download","file.json");
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        exportText.addEventListener("click", exportJSON);
+    </script>
+</body>
+</html>
